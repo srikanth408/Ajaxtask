@@ -6,6 +6,12 @@
     function back(){
     location.reload();
     }
+    $(document).ajaxStart(function(){
+        $("#wait").css("display", "block");
+    });
+    $(document).ajaxComplete(function(){
+        $("#wait").css("display", "none");
+    });
     $(document).ready(function () {
       var character = {};
       $.ajax({
@@ -17,6 +23,12 @@
             var mvname = document.getElementById("container");
             mvname.innerHTML += "<p><a href='#' >" + data.results[i].title + " </a></p>";
           }
+          $(document).ajaxStart(function(){
+        $("#wait").css("display", "block");
+    });
+    $(document).ajaxComplete(function(){
+        $("#wait").css("display", "none");
+    });
           $("a").click(function () {
             var temp = $(this).text();
             console.log(temp);
@@ -92,6 +104,7 @@
     </h2>
     <button name="Back" id="Back" onclick="back()">Back</button>
   </div>
+  <div id="wait" style="display:none;width:69px;height:89px;position:absolute;top:50%;left:50%;padding:2px;"><img src="https://documentation.devexpress.com/HelpResource.ashx?help=WPF&document=img118758.jpg" width="300" height="150" /></div>
 </body>
 
 </html>
