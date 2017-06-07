@@ -1,0 +1,97 @@
+<html>
+
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+    function back(){
+    location.reload();
+    }
+    $(document).ready(function () {
+      var character = {};
+      $.ajax({
+        url: 'https://swapi.co/api/films/',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+          for (var i = 0; i < data.results.length; i++) {
+            var mvname = document.getElementById("container");
+            mvname.innerHTML += "<p><a href='#' >" + data.results[i].title + " </a></p>";
+          }
+          $("a").click(function () {
+            var temp = $(this).text();
+            console.log(temp);
+            $("#container").hide();
+            data.results.map(function(item) {
+              if (temp.trim() === item.title) {
+                character = item.characters;
+              }
+            });
+            for (var i = 0; i < character.length; i++) {
+              var chrname = document.getElementById("names");
+              $.ajax({
+                url: character[i].replace("http", "https"),
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                  chrname.innerHTML += "<p>" + data.name + "</p>";
+                }
+              });
+
+            }
+            document.getElementById("names").style.visibility = "visible";
+
+          });
+        }
+
+
+      });
+    });
+  </script>
+  <style>
+    h2 {
+      display: inline-block;
+      font-size: 20px;
+      margin-left: 10px;
+    }
+
+    p {
+      margin: 3px;
+      width: 180px
+    }
+
+    p {
+      padding: 5px;
+      background: white
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    #names {
+      visibility: hidden;
+    }
+
+    #Back {
+      width: 80px;
+      height: 30px;
+      color: green;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container">
+    <h2>
+      <u>Movie Names</u>
+    </h2>
+  </div>
+  <div id="names">
+    <h2>
+      <u>Character Names</u>
+    </h2>
+    <button name="Back" id="Back" onclick="back()">Back</button>
+  </div>
+</body>
+
+</html>
